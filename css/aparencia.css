@@ -1,0 +1,107 @@
+.ticket-summary {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.ticket-summary .card {
+  flex: 1;
+  padding: 1rem;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.card.open { background: #007bff; }
+.card.progress { background: #f0ad4e; }
+.card.closed { background: #28a745; }
+
+.ticket-card {
+  border: 1px solid #ddd;
+  border-left: 5px solid #007bff;
+  padding: 1rem;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.ticket-card:hover {
+  background: #f9f9f9;
+}
+
+.ticket-card.status-em-andamento { border-left-color: #f0ad4e; }
+.ticket-card.status-resolvido { border-left-color: #28a745; }
+
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.ticket-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+
+
+
+
+
+
+
+.ticket-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.ticket-form .form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.ticket-form select,
+.ticket-form input,
+.ticket-form textarea {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+}
+
+.ticket-form .file-name {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 4px;
+}
+
+.ticket-form .form-actions {
+  margin-top: 1.5rem;
+}
+
+
+
+
+
+
+
+
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+}
+
+.report-table th,
+.report-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.report-table th {
+  background-color: #f0f0f0;
+}

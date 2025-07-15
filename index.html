@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NPC - Central de Chamados</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/faqStyles.css" />
+  <link rel="stylesheet" href="css/aparencia.css" />
+  <link rel="stylesheet" href="css/login.css" />
+</head>
+<body>
+  <div class="wrapper">
+    <!-- Sidebar -->
+   <aside class="sidebar">
+  <div class="logo-container">
+    <img src="images/logo.png" alt="NPC Logo" class="logo" />
+  </div>
+  <nav class="main-menu">
+    <ul>
+      <li><a href="#" class="active" id="menuDashboard"><i class="icon-dashboard"></i> Dashboard</a></li>
+      <li><a href="#" id="menuMyTickets"><i class="icon-tickets"></i> Meus Chamados</a></li>
+      <li><a href="#" id="menuResolved"><i class="icon-resolved"></i> Resolvidos</a></li>
+      <li><a href="#" id="menuNewTicket"><i class="icon-new"></i> Novo Chamado</a></li>
+      <li><a href="#" id="menuFaq"><i class="icon-faq"></i> FAQ</a></li>
+      <li><a href="#" id="menuReports"><i class="icon-reports"></i> Relatórios</a></li>
+      <li><a href="#" id="menuSettings"><i class="icon-settings"></i> Configurações</a></li>
+    </ul>
+  </nav>
+</aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="top-bar">
+        <h1>Central de Chamados</h1>
+        <div class="user-menu">
+          <span>Bem-vindo, Usuário</span>
+          <button class="btn-logout">Sair</button>
+        </div>
+      </header>
+
+      <div id="app"></div>
+    </main>
+  </div>
+
+ <script src="script/app.js"></script>
+ <script src="script/dashboard.js"></script>
+ <script src="script/faq.js"></script>
+ <script src="script/login.js"></script>
+ <script src="script/myTickets.js"></script>
+ <script src="script/navigation.js"></script>
+ <script src="script/newTicket.js"></script>
+ <script src="script/reports.js"></script>
+ <script src="script/resolvedTickets.js"></script>
+ <script src="script/settings.js"></script>
+ <script src="script/ticketDetails.js"></script>
+
+</body>
+</html>

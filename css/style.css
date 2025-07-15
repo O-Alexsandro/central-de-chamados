@@ -1,0 +1,304 @@
+/* Reset e Variáveis */
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: #3498db;
+  --accent-color: #e74c3c;
+  --text-color: #333;
+  --light-gray: #f5f5f5;
+  --medium-gray: #ecf0f1;
+  --dark-gray: #95a5a6;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  color: var(--text-color);
+  background-color: #fff;
+}
+
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-container {
+  padding: 0 2rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+  max-width: 100%;
+  height: auto;
+}
+
+.main-menu {
+  flex: 1;
+  margin-top: 2rem;
+}
+
+.main-menu ul {
+  list-style: none;
+}
+
+.main-menu li a {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 2rem;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.main-menu li a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.main-menu li a i {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* Ícones do menu */
+.icon-dashboard { background-image: url('../images/icon-dashboard.png'); }
+.icon-tickets { background-image: url('../images/icon-tickets.png'); }
+.icon-resolved { background-image: url('../images/icon-resolved.png'); }
+.icon-new { background-image: url('../images/icon-new.png'); }
+.icon-faq { background-image: url('../images/icon-faq.png'); }
+.icon-reports { background-image: url('../images/icon-reports.png'); }
+.icon-settings { background-image: url('../images/icon-settings.png'); }
+
+/* Item ativo do menu */
+.main-menu li a.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-left: 4px solid var(--secondary-color);
+}
+
+.main-menu li a.active:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  background-color: var(--light-gray);
+}
+
+.top-bar {
+  background-color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.top-bar h1 {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-logout {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-logout:hover {
+  background-color: #c0392b;
+}
+
+/* Container da aplicação */
+#app {
+  padding: 2rem;
+  height: calc(100vh - 70px);
+  overflow-y: auto;
+}
+
+/* Estilos específicos da central de chamados (mantidos do anterior) */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+/* ... (mantenha todos os outros estilos do dashboard que já criamos anteriormente) ... */
+
+.dashboard-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stats {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Componentes */
+button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+button.primary {
+  background-color: #2563eb;
+  color: white;
+}
+
+button.primary:hover {
+  background-color: #1d4ed8;
+}
+
+input, select, textarea {
+  padding: 0.6rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+select {
+  min-width: 180px;
+}
+
+/* Cards */
+.stat-card {
+  flex: 1;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2563eb;
+  display: block;
+}
+
+.stat-label {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.ticket-card {
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ticket-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.ticket-id {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.ticket-status {
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.ticket-status.aberto {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.ticket-status.em-andamento {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.ticket-status.resolvido {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.ticket-card h3 {
+  margin-bottom: 0.5rem;
+  color: #1e293b;
+}
+
+.ticket-description {
+  color: #64748b;
+  margin-bottom: 1rem;
+}
+
+.ticket-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.priority-baixa {
+  border-left: 4px solid #22c55e;
+}
+
+.priority-média {
+  border-left: 4px solid #f59e0b;
+}
+
+.priority-alta {
+  border-left: 4px solid #ef4444;
+}
+
+.no-results {
+  text-align: center;
+  padding: 2rem;
+  color: #64748b;
+}
+
