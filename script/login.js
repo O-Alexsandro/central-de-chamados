@@ -1,3 +1,14 @@
+function parseJwt (token) {
+  if (!token) return null;
+  try {
+    const payload = token.split('.')[1]; // pega só o meio do JWT
+    return JSON.parse(atob(payload));    // decodifica Base64 → JSON
+  } catch (e) {
+    console.error('JWT inválido', e);
+    return null;
+  }
+}
+
 function renderLogin(container) {
   // Verifica se o container existe
   if (!container) {
@@ -45,30 +56,38 @@ function renderLogin(container) {
     </div>
   `;
 
-  // Configura o evento de submit do formulário
   const loginForm = document.getElementById('loginForm');
-  if (loginForm) {
-    loginForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
+    loginForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
 
-      // Dados de usuários padrão
-      const users = JSON.parse(localStorage.getItem('usuarios')) || [
-        { username: 'admin', password: 'admin123', nome: 'Administrador' },
-        { username: 'tecnico', password: '1234', nome: 'Técnico de TI' }
-      ];
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
 
-      const user = users.find(u => u.username === username && u.password === password);
+    try {
+      const response = await fetch('http://localhost:8080/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: username, senha: password })
+      });
 
-      if (user) {
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('usuarioLogado', JSON.stringify(user));
-        window.location.href = 'index.html';
-      } else {
-        alert('Usuário ou senha incorretos!');
-        document.getElementById('password').value = '';
+      if (!response.ok) {
+        const msg = response.status === 401 ? 'Credenciais inválidas!' : 'Erro ao fazer login.';
+        alert(msg, 'error');
+        return;
       }
-    });
-  }
+
+      const { token } = await response.json();
+      localStorage.setItem('token', token);
+
+      const payload = parseJwt(token);
+      const role = payload?.role || 'user';
+      localStorage.setItem('role', role);
+      localStorage.setItem('lastLoginEmail', payload?.sub || username);
+
+      window.location.href = 'index.html';
+    } catch (err) {
+      console.error(err);
+      alert('Não foi possível entrar. Tente novamente.', 'error');
+    }
+  });
 }
