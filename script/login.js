@@ -9,6 +9,8 @@ function parseJwt (token) {
   }
 }
 
+
+
 function renderLogin(container) {
   // Verifica se o container existe
   if (!container) {
@@ -83,6 +85,14 @@ function renderLogin(container) {
       const role = payload?.role || 'user';
       localStorage.setItem('role', role);
       localStorage.setItem('lastLoginEmail', payload?.sub || username);
+
+      localStorage.setItem('usuarioLogado', JSON.stringify({
+      nome: payload?.nome || 'Usuário',  // <-- certifique-se que o token tem isso
+      email: payload?.sub,
+      role: role
+    }));
+
+localStorage.setItem('isLoggedIn', 'true');
 
       window.location.href = 'index.html';
     } catch (err) {

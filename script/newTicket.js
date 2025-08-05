@@ -1,3 +1,10 @@
+document.addEventListener('DOMContentLoaded', async function() {
+  const container = document.getElementById('app');
+    renderNewTicket(container, novoChamado => {
+    console.log('Chamado criado:', novoChamado);
+  });
+});
+
 function renderNewTicket(container, addTicketCallback) {
   container.innerHTML = `
     <div class="new-ticket">
@@ -19,20 +26,14 @@ function renderNewTicket(container, addTicketCallback) {
           <div class="form-group">
             <label for="inputPrioridade">Prioridade *</label>
             <select id="inputPrioridade" required>
-              <option value="Baixa">Baixa</option>
-              <option value="Média" selected>Média</option>
-              <option value="Alta">Alta</option>
+              <option value="">Selecione...</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label for="inputSetor">Setor *</label>
+            <label for="inputSetor">Departamentos *</label>
             <select id="inputSetor" required>
-              <option value="TI" selected>TI</option>
-              <option value="Financeiro">Financeiro</option>
-              <option value="RH">RH</option>
-              <option value="Comercial">Comercial</option>
-              <option value="Outro">Outro</option>
+              <option value="">Selecione...</option>
             </select>
           </div>
         </div>
@@ -51,6 +52,9 @@ function renderNewTicket(container, addTicketCallback) {
     </div>
   `;
 
+  prioridades();
+  loadDepartamentosRelacionamento();
+
   const form = document.getElementById('formNovoChamado');
   const fileInput = document.getElementById('inputAnexo');
   const fileLabel = document.getElementById('fileLabel');
@@ -63,13 +67,17 @@ function renderNewTicket(container, addTicketCallback) {
     renderDashboard(container);
   });
 
-  form.addEventListener('submit', e => {
-    e.preventDefault();
+  form.addEventListener('submit', async e => {
+    
+  e.preventDefault();
 
     // Validações
     const titulo = document.getElementById('inputTitulo').value.trim();
     const descricao = document.getElementById('inputDescricao').value.trim();
     let isValid = true;
+    const prioridade = document.getElementById('inputPrioridade').value;
+    const departamento = document.getElementById('inputSetor').value;
+    const anexo = fileInput.files[0];
 
     if (titulo.length < 5) {
       document.getElementById('tituloError').textContent = 'O título deve ter pelo menos 5 caracteres';
@@ -87,24 +95,83 @@ function renderNewTicket(container, addTicketCallback) {
 
     if (!isValid) return;
 
-    const prioridade = document.getElementById('inputPrioridade').value;
-    const setor = document.getElementById('inputSetor').value;
-    const anexo = fileInput.files[0];
 
-    const novoChamado = {
-      titulo,
-      descricao,
-      prioridade,
-      setor,
-      status: 'Aberto',
-      dataCriacao: new Date().toISOString(),
-      criador: getUsuarioAtual(),
-      anexoNome: anexo ? anexo.name : '',
-      comentarios: [],
-    };
+    const formData = new FormData();
+    formData.append('tituloChamado', titulo);
+    formData.append('descricao', descricao);
+    formData.append('IdPrioridade', prioridade);
+    formData.append('IdDepartamento', departamento);
+    formData.append('IdStatus', 1);
+    if (anexo) {
+      formData.append('anexo', anexo); // nome deve bater com @RequestParam("anexo")
+    }
 
+    console.log("OS dados a serem enviados são: " + formData.json)
+
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch('http://localhost:8080/chamados/registrar', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: formData
+    });
+
+    if (!response.ok) {
+      alert('Erro ao abrir chamado');
+      return;
+    }
+
+    const novoChamado = await response.json();
     addTicketCallback(novoChamado);
     alert('Chamado aberto com sucesso!');
     renderDashboard(container);
-  });
-}
+  } catch (error) {
+    console.error('Erro ao registrar chamado:', error);
+    alert('Erro ao abrir chamado. Tente novamente mais tarde.');
+  }
+})
+};
+
+async function prioridades() {
+    try {
+        const response = await fetch('http://localhost:8080/prioridades');
+        if (response.ok) {
+            const prioridades = await response.json();
+            console.log('API Response:', prioridades); // Debug API response
+            const select = document.getElementById('inputPrioridade');
+            prioridades.forEach(prioridade => {
+                const option = document.createElement('option');
+                option.value = prioridade.idPrioridade;
+                option.textContent = prioridade.nivelPrioridade;
+                select.append(option);  
+            });
+        } else {
+            console.error('Erro ao carregar prioridades');
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+    }
+};
+
+async function loadDepartamentosRelacionamento() {
+    try {
+        const response = await fetch('http://localhost:8080/departamento');
+        if (response.ok) {
+            const departamentos = await response.json();
+            console.log('API Response:', departamentos); // Debug API response
+            const select = document.getElementById('inputSetor');
+            departamentos.forEach(departamento => {
+                const option = document.createElement('option');
+                option.value = departamento.idDepartamento;
+                option.textContent = departamento.nomeDepartamento;
+                select.append(option);  
+            });
+        } else {
+            console.error('Erro ao carregar departamentos');
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+    }
+};
