@@ -48,7 +48,7 @@ function setupMenuEvents() {
   document.getElementById('menuNewTicket').addEventListener('click', e => {
     e.preventDefault();
     setActiveMenu(e.target);
-    renderNewTicket(app, addTicket);
+    renderNewTicket(app);
   });
 
   document.getElementById('menuFaq').addEventListener('click', e => {

@@ -1,5 +1,28 @@
-function getChamados() {
-  return JSON.parse(localStorage.getItem('chamados')) || [];
+document.addEventListener('DOMContentLoaded', async function () {
+  await getChamados(); // Coloque await aqui se quiser esperar a função terminar
+});
+
+async function getChamados() {
+  const token = localStorage.getItem('token'); // ou onde você armazenou o token
+  try {
+    const response = await fetch('http://localhost:8080/chamados/usuario', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Erro ao buscar chamados');
+    }
+
+    const data = await response.json();
+    console.log('Chamados recebidos:', data);
+    // aqui você pode chamar alguma função para renderizar os chamados na tela
+
+  } catch (error) {
+    console.error('Erro ao buscar os chamados:', error);
+  }
 }
 
 function getUsuarioAtual() {
@@ -7,25 +30,25 @@ function getUsuarioAtual() {
   return user?.username || 'desconhecido';
 }
 
-function addTicket(novoChamado) {
-  const chamados = getChamados();
-  const novo = {
-    ...novoChamado,
-    id: Date.now(),
-    criador: getUsuarioAtual(),
-    comentarios: [],
-    dataCriacao: new Date().toISOString()
-  };
+//  function addTicket(novoChamado) {
+//    const chamados = getChamados();
+//    const novo = {
+//     ...novoChamado,
+//      id: Date.now(),
+//      criador: getUsuarioAtual(),
+//      comentarios: [],
+//      dataCriacao: new Date().toISOString()
+//    };
 
-  chamados.push(novo);
-  localStorage.setItem('chamados', JSON.stringify(chamados));
-  return novo;
-}
+//   chamados.push(novo);
+//   localStorage.setItem('chamados', JSON.stringify(chamados));
+//   return novo;
+// }
 
-function contarPorStatus(status) {
-  const chamados = getChamados();
-  return chamados.filter(c => c.status === status && c.criador === getUsuarioAtual()).length;
-}
+// function contarPorStatus(status) {
+//   const chamados = getChamados();
+//   return chamados;
+// }
 
 function renderDashboard(container) {
   container.innerHTML = `
@@ -58,16 +81,16 @@ function renderDashboard(container) {
     </div>
 
     <div class="ticket-summary">
-      <div class="card open"><strong>${contarPorStatus('Aberto')}</strong><span>🔓 Abertos</span></div>
-      <div class="card progress"><strong>${contarPorStatus('Em andamento')}</strong><span>⚙️ Em Andamento</span></div>
-      <div class="card closed"><strong>${contarPorStatus('Resolvido')}</strong><span>✅ Resolvidos</span></div>
+      <div class="card open"><strong>('Aberto')}</strong><span>🔓 Abertos</span></div>
+      <div class="card progress"><strong>10('Em andamento')}</strong><span>⚙️ Em Andamento</span></div>
+      <div class="card closed"><strong>{10('Resolvido')}</strong><span>✅ Resolvidos</span></div>
     </div>
 
     <div id="ticketsList" class="ticket-list"></div>
   `;
 
   document.getElementById('btnNewTicket').addEventListener('click', () => {
-    renderNewTicket(container, addTicket);
+    renderNewTicket(container);
   });
 
   document.getElementById('filterStatus').addEventListener('change', updateTicketsList);
@@ -77,22 +100,45 @@ function renderDashboard(container) {
   updateTicketsList();
 }
 
-function updateTicketsList() {
+async function updateTicketsList() {
   const ticketsList = document.querySelector('#ticketsList');
   const statusFilter = document.getElementById('filterStatus').value;
   const priorityFilter = document.getElementById('filterPriority').value;
   const searchTerm = document.getElementById('searchTickets').value.toLowerCase();
-  const user = getUsuarioAtual();
 
-  let filtrados = getChamados().filter(c => c.criador === user);
+  const token = localStorage.getItem('token');
+  let filtrados = [];
 
-  if (statusFilter) filtrados = filtrados.filter(c => c.status === statusFilter);
-  if (priorityFilter) filtrados = filtrados.filter(c => c.prioridade === priorityFilter);
-  if (searchTerm) {
-    filtrados = filtrados.filter(c =>
-      c.titulo.toLowerCase().includes(searchTerm) ||
-      c.descricao.toLowerCase().includes(searchTerm)
-    );
+  try {
+    const response = await fetch('http://localhost:8080/chamados/usuario', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Erro ao buscar chamados');
+    }
+
+    const chamados = await response.json();
+
+    filtrados = chamados.filter(c => {
+      const titulo = c.tituloChamado?.toLowerCase() || '';
+      const descricao = c.descricao?.toLowerCase() || '';
+      const status = c.status?.valorStatus || '';
+      const prioridade = c.prioridade?.nivelPrioridade || '';
+
+      return (
+        (!searchTerm || titulo.includes(searchTerm) || descricao.includes(searchTerm)) &&
+        (!statusFilter || status === statusFilter) &&
+        (!priorityFilter || prioridade === priorityFilter)
+      );
+    });
+
+  } catch (error) {
+    console.error('Erro ao carregar chamados:', error);
+    ticketsList.innerHTML = '<p class="no-results">Erro ao carregar chamados.</p>';
+    return;
   }
 
   ticketsList.innerHTML = '';
@@ -104,17 +150,20 @@ function updateTicketsList() {
 
   filtrados.forEach(ticket => {
     const card = document.createElement('div');
-    card.className = `ticket-card status-${ticket.status.replace(' ', '-').toLowerCase()}`;
+    const status = ticket.status?.valorStatus || 'Desconhecido';
+    const prioridade = ticket.prioridade?.nivelPrioridade || 'Sem prioridade';
+
+    card.className = `ticket-card status-${status.replace(' ', '-').toLowerCase()}`;
     card.innerHTML = `
       <div class="ticket-header">
-        <span class="ticket-id">#${ticket.id}</span>
-        <span class="ticket-status">${ticket.status}</span>
+        <span class="ticket-id">#${ticket.idChamado}</span>
+        <span class="ticket-status">${status}</span>
       </div>
-      <h3>${ticket.titulo}</h3>
-      <p>${ticket.descricao.substring(0, 100)}...</p>
+      <h3>${ticket.tituloChamado}</h3>
+      <p>${ticket.descricao?.substring(0, 100)}...</p>
       <div class="ticket-footer">
-        <span>🕒 ${formatarData(ticket.dataCriacao)}</span>
-        <span>📌 ${ticket.prioridade}</span>
+        <span>🕒 ${formatarData(ticket.dataCadastro)}</span>
+        <span>📌 ${prioridade}</span>
       </div>
     `;
 

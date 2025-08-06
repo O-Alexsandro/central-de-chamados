@@ -124,9 +124,8 @@ function renderNewTicket(container, addTicketCallback) {
     }
 
     const novoChamado = await response.json();
-    addTicketCallback(novoChamado);
-    alert('Chamado aberto com sucesso!');
     renderDashboard(container);
+    alert('Chamado aberto com sucesso!');
   } catch (error) {
     console.error('Erro ao registrar chamado:', error);
     alert('Erro ao abrir chamado. Tente novamente mais tarde.');

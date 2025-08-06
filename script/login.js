@@ -92,9 +92,9 @@ function renderLogin(container) {
       role: role
     }));
 
-localStorage.setItem('isLoggedIn', 'true');
-
-      window.location.href = 'index.html';
+    localStorage.setItem('isLoggedIn', 'true');
+    window.location.href = 'index.html';
+    
     } catch (err) {
       console.error(err);
       alert('Não foi possível entrar. Tente novamente.', 'error');
