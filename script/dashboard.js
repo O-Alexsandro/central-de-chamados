@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', async function () {
   await getChamados(); // Coloque await aqui se quiser esperar a função terminar
+  await pegarQtdChamadosEmAbertosUsuario();
+  await pegarQtdChamadosEmTratativaUsuario();
+  await pegarQtdChamadosResolvidosUsuario();
 });
 
 async function getChamados() {
@@ -17,7 +20,7 @@ async function getChamados() {
     }
 
     const data = await response.json();
-    console.log('Chamados recebidos:', data);
+    console.log('Chamados recebidooooos:', data);
     // aqui você pode chamar alguma função para renderizar os chamados na tela
 
   } catch (error) {
@@ -81,9 +84,9 @@ function renderDashboard(container) {
     </div>
 
     <div class="ticket-summary">
-      <div class="card open"><strong>('Aberto')}</strong><span>🔓 Abertos</span></div>
-      <div class="card progress"><strong>10('Em andamento')}</strong><span>⚙️ Em Andamento</span></div>
-      <div class="card closed"><strong>{10('Resolvido')}</strong><span>✅ Resolvidos</span></div>
+      <div class="card open"><strong>0</strong><span><br> Chamados Abertos</span></div>
+      <div class="card progress"><strong>10</strong><span><br> Em Andamento</span></div>
+      <div class="card closed"><strong>10</strong><span><br> Resolvidos</span></div>
     </div>
 
     <div id="ticketsList" class="ticket-list"></div>
@@ -100,6 +103,82 @@ function renderDashboard(container) {
   updateTicketsList();
 }
 
+
+async function pegarQtdChamadosEmAbertosUsuario() {
+  const token = localStorage.getItem('token');
+  try {
+    const response = await fetch('http://localhost:8080/chamados/emAberto', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Erro ao buscar chamados');
+    }
+
+    const quantidade = await response.json(); // aqui vem o Long do backend
+    console.log('Quantidade de chamados em aberto:', quantidade);
+
+    // Atualiza o valor no HTML
+    document.querySelector('.card.open strong').textContent = quantidade;
+
+  } catch (error) {
+    console.error('Erro ao buscar os chamados:', error);
+  }
+}
+
+async function pegarQtdChamadosEmTratativaUsuario() {
+  const token = localStorage.getItem('token');
+  try {
+    const response = await fetch('http://localhost:8080/chamados/emTratativa', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Erro ao buscar chamados');
+    }
+
+    const quantidade = await response.json(); // aqui vem o Long do backend
+    console.log('Quantidade de chamados em aberto:', quantidade);
+
+    // Atualiza o valor no HTML
+    document.querySelector('.card.progress strong').textContent = quantidade;
+
+  } catch (error) {
+    console.error('Erro ao buscar os chamados:', error);
+  }
+}
+
+async function pegarQtdChamadosResolvidosUsuario() {
+  const token = localStorage.getItem('token');
+  try {
+    const response = await fetch('http://localhost:8080/chamados/resolvido', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Erro ao buscar chamados');
+    }
+
+    const quantidade = await response.json(); // aqui vem o Long do backend
+    console.log('Quantidade de chamados em aberto:', quantidade);
+
+    // Atualiza o valor no HTML
+    document.querySelector('.card.closed strong').textContent = quantidade;
+
+  } catch (error) {
+    console.error('Erro ao buscar os chamados:', error);
+  }
+}
+
 async function updateTicketsList() {
   const ticketsList = document.querySelector('#ticketsList');
   const statusFilter = document.getElementById('filterStatus').value;
@@ -110,7 +189,7 @@ async function updateTicketsList() {
   let filtrados = [];
 
   try {
-    const response = await fetch('http://localhost:8080/chamados/usuario', {
+    const response = await fetch('http://localhost:8080/chamados/emAbertoEemTratativa', {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -173,4 +252,5 @@ async function updateTicketsList() {
 
     ticketsList.appendChild(card);
   });
+
 }
