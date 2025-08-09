@@ -105,3 +105,7 @@
 .report-table th {
   background-color: #f0f0f0;
 }
+
+.resolved-header{
+  padding-bottom: 20px;
+}

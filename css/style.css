@@ -77,13 +77,8 @@ body {
 }
 
 /* Ícones do menu */
-.icon-dashboard { background-image: url('../images/icon-dashboard.png'); }
-.icon-tickets { background-image: url('../images/icon-tickets.png'); }
-.icon-resolved { background-image: url('../images/icon-resolved.png'); }
-.icon-new { background-image: url('../images/icon-new.png'); }
-.icon-faq { background-image: url('../images/icon-faq.png'); }
-.icon-reports { background-image: url('../images/icon-reports.png'); }
-.icon-settings { background-image: url('../images/icon-settings.png'); }
+
+
 
 /* Item ativo do menu */
 .main-menu li a.active {

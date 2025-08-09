@@ -27,17 +27,21 @@ function setActiveMenu(selectedItem) {
 function setupMenuEvents() {
   const app = document.getElementById('app');
 
-  document.getElementById('menuDashboard').addEventListener('click', e => {
+  document.getElementById('menuDashboard').addEventListener('click', async (e) => {
     e.preventDefault();
     setActiveMenu(e.target);
     renderDashboard(app);
+    await pegarQtdChamadosEmAbertosUsuario();
+    await pegarQtdChamadosEmTratativaUsuario();
+    await pegarQtdChamadosResolvidosUsuario();
+    await updateTicketsList();
   });
 
-  document.getElementById('menuMyTickets').addEventListener('click', e => {
-    e.preventDefault();
-    setActiveMenu(e.target);
-    renderMyTickets(app);
-  });
+  // document.getElementById('menuMyTickets').addEventListener('click', e => {
+  //   e.preventDefault();
+  //   setActiveMenu(e.target);
+  //   renderMyTickets(app);
+  // });
 
   document.getElementById('menuResolved').addEventListener('click', e => {
     e.preventDefault();
@@ -57,17 +61,17 @@ function setupMenuEvents() {
     renderFaq(app);
   });
 
-  document.getElementById('menuReports').addEventListener('click', e => {
-    e.preventDefault();
-    setActiveMenu(e.target);
-    renderReports(app);
-  });
+  // document.getElementById('menuReports').addEventListener('click', e => {
+  //   e.preventDefault();
+  //   setActiveMenu(e.target);
+  //   renderReports(app);
+  // });
 
-  document.getElementById('menuSettings').addEventListener('click', e => {
-    e.preventDefault();
-    setActiveMenu(e.target);
-    renderSettings(app);
-  });
+  // document.getElementById('menuSettings').addEventListener('click', e => {
+  //   e.preventDefault();
+  //   setActiveMenu(e.target);
+  //   renderSettings(app);
+  // });
 
   document.querySelector('.btn-logout').addEventListener('click', () => {
     if (confirm('Tem certeza que deseja sair?')) {
