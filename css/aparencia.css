@@ -28,11 +28,13 @@
 }
 
 .ticket-card:hover {
-  background: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
 }
 
-.ticket-card.status-em-andamento { border-left-color: #f0ad4e; }
-.ticket-card.status-resolvido { border-left-color: #28a745; }
+.ticket-card.status-em-aberto { border-left-color: #007bff; }
+.ticket-card.status-em-tratativa { border-left-color: #f0ad4e; }
+.ticket-card.resolved { border-left-color: #28a745; }
 
 .ticket-header {
   display: flex;
@@ -46,12 +48,6 @@
   font-size: 0.9rem;
   margin-top: 0.5rem;
 }
-
-
-
-
-
-
 
 
 .ticket-form .form-group {
@@ -80,13 +76,6 @@
 .ticket-form .form-actions {
   margin-top: 1.5rem;
 }
-
-
-
-
-
-
-
 
 
 .report-table {

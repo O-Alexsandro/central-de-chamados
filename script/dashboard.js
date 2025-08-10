@@ -84,9 +84,9 @@ function renderDashboard(container) {
     </div>
 
     <div class="ticket-summary">
-      <div class="card open"><strong>0</strong><span><br> Chamados em aberto</span></div>
-      <div class="card progress"><strong>10</strong><span><br> Em andamento</span></div>
-      <div class="card closed"><strong>10</strong><span><br> Resolvidos</span></div>
+      <div class="card open"><strong>0</strong><span><br> Chamados Abertos</span></div>
+      <div class="card progress"><strong>0</strong><span><br> Em Andamento</span></div>
+      <div class="card closed"><strong>0</strong><span><br> Resolvidos</span></div>
     </div>
 
     <div id="ticketsList" class="ticket-list"></div>
@@ -298,6 +298,11 @@ function renderTicketDetails(container, ticket) {
         <div class="detail-row full-width">
           <span class="detail-label">Descrição:</span>
           <p class="detail-value">${ticket.descricao}</p>
+        </div>
+
+          <div class="detail-row full-width">
+          <span class="detail-label">Comentário de tratativa:</span>
+          <p class="detail-value">${ticket.comentarioAdmin}</p>
         </div>
         
         ${ticket.anexoNome ? `
