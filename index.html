@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="css/faqStyles.css" />
   <link rel="stylesheet" href="css/aparencia.css" />
   <link rel="stylesheet" href="css/login.css" />
+  <link rel="stylesheet" href="css/chatbot.css">
+  <link rel="stylesheet" href="css/ticket.css">
 </head>
 <body>
   <div class="wrapper">
@@ -54,6 +56,22 @@
  <script src="script/resolvedTickets.js"></script>
  <!-- <script src="script/settings.js"></script> -->
  <script src="script/ticketDetails.js"></script>
+  <script src="script/chatbot.js"></script>
+
+ <div id="chat-widget">
+    <div id="chat-widget-header">
+        <span>SmartBot Assistente</span>
+        <button id="chat-toggle">⊥</button>
+    </div>
+    <div id="chat-widget-container" style="display: none;">
+        <div id="chat-messages"></div>
+        <div id="typing-indicator" style="display: none;">Digitando...</div>
+        <div id="chat-input-area">
+            <input type="text" id="user-input" placeholder="Digite sua mensagem...">
+            <button id="send-button">Enviar</button>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

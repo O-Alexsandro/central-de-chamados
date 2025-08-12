@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', async function () {
-  await getChamados(); // Coloque await aqui se quiser esperar a função terminar
+  await getChamados();
   await pegarQtdChamadosEmAbertosUsuario();
   await pegarQtdChamadosEmTratativaUsuario();
   await pegarQtdChamadosResolvidosUsuario();
 });
 
 async function getChamados() {
-  const token = localStorage.getItem('token'); // ou onde você armazenou o token
+  const token = localStorage.getItem('token');
   try {
     const response = await fetch('http://localhost:8080/chamados/usuario', {
       method: 'GET',
@@ -21,7 +21,6 @@ async function getChamados() {
 
     const data = await response.json();
     console.log('Chamados recebidooooos:', data);
-    // aqui você pode chamar alguma função para renderizar os chamados na tela
 
   } catch (error) {
     console.error('Erro ao buscar os chamados:', error);
@@ -257,76 +256,59 @@ async function updateTicketsList() {
 
 function renderTicketDetails(container, ticket) {
   container.innerHTML = `
-    <div class="ticket-details-container">
-      <h2>Detalhes do Chamado #${ticket.idChamado}</h2>
-      
+    <div class="ticket-container">
+      <div class="ticket-header">
+        <h1 class="ticket-title">Detalhes do Chamado #${ticket.idChamado}</h1>
+        <span class="ticket-status status-${(ticket.status?.valorStatus || 'Desconhecido').toLowerCase().replace(/\s+/g, '-')}">
+          ${ticket.status?.valorStatus || 'Desconhecido'}
+        </span>
+      </div>
+
       <div class="ticket-details">
         <div class="detail-row">
           <span class="detail-label">Título:</span>
           <span class="detail-value">${ticket.tituloChamado}</span>
         </div>
-        
-        <div class="detail-row">
-          <span class="detail-label">Status:</span>
-          <span class="detail-value status-${(ticket.status?.valorStatus || 'desconhecido').toLowerCase().replace(' ', '-')}">
-            ${ticket.status?.valorStatus || 'Desconhecido'}
-          </span>
-        </div>
-        
         <div class="detail-row">
           <span class="detail-label">Setor:</span>
           <span class="detail-value">${ticket.departamento?.nomeDepartamento || 'Não informado'}</span>
         </div>
-        
         <div class="detail-row">
           <span class="detail-label">Prioridade:</span>
           <span class="detail-value priority-${(ticket.prioridade?.nivelPrioridade || 'sem-prioridade').toLowerCase()}">
             ${ticket.prioridade?.nivelPrioridade || 'Sem prioridade'}
           </span>
         </div>
-        
         <div class="detail-row">
           <span class="detail-label">Criado em:</span>
           <span class="detail-value">${formatarData(ticket.dataCadastro)}</span>
         </div>
-        
         <div class="detail-row">
           <span class="detail-label">Criado por:</span>
           <span class="detail-value">${ticket.usuarioSistema?.username || 'Desconhecido'}</span>
         </div>
-        
-        <div class="detail-row full-width">
-          <span class="detail-label">Descrição:</span>
-          <p class="detail-value">${ticket.descricao}</p>
-        </div>
-
-          <div class="detail-row full-width">
-          <span class="detail-label">Comentário de tratativa:</span>
-          <p class="detail-value">${ticket.comentarioAdmin}</p>
-        </div>
-        
-        ${ticket.anexoNome ? `
-        <div class="detail-row">
-          <span class="detail-label">Anexo:</span>
-          <span class="detail-value">
-            <a href="#" class="download-link">${ticket.anexoNome}</a>
-          </span>
-        </div>` : ''}
       </div>
 
-      <div class="comment-box">
-        
-        <div id="comentarios">
-          ${(ticket.comentarios || []).map(c => `
-            <div class="comment">
-              <div class="comment-header">
-                <strong>${c.autor}</strong>
-                <span class="comment-date">${formatarData(c.data)}</span>
-              </div>
-              <p class="comment-text">${c.texto}</p>
-            </div>
-          `).join('')}
-            <button id="btnVoltar" class="secondary"> Voltar para a lista</button>
+      <div class="ticket-description">
+        <strong>Descrição:</strong><br>
+        ${ticket.descricao || 'Sem descrição'}
+      </div>
+
+      ${ticket.anexoNome ? `
+      <div class="ticket-attachment">
+        <strong>Anexo:</strong><br>
+        <div class="attachment-preview">
+          <a href="#" class="attachment-link">
+            <i class="fas fa-download"></i> ${ticket.anexoNome}
+          </a>
+        </div>
+      </div>` : ''}
+
+      <div class="ticket-actions">
+        <button class="btn btn-secondary" id="btnVoltar">
+          <i class="fas fa-arrow-left"></i> Voltar para a lista
+        </button>
+      </div>
     </div>
   `;
 
