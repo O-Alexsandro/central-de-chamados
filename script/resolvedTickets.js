@@ -12,7 +12,7 @@ async function renderResolvedTickets(container) {
 
   async function fetchResolvedTickets() {
     try {
-      const response = await fetch('http://localhost:8080/chamados/status/resolvido', {
+      const response = await fetch(`${BACKEND_BASE_URL}/chamados/status/resolvido`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`

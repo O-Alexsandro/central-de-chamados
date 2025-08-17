@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 async function getChamados() {
   const token = localStorage.getItem('token');
   try {
-    const response = await fetch('http://localhost:8080/chamados/usuario', {
+    const response = await fetch(`${BACKEND_BASE_URL}/chamados/usuario`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -106,7 +106,7 @@ function renderDashboard(container) {
 async function pegarQtdChamadosEmAbertosUsuario() {
   const token = localStorage.getItem('token');
   try {
-    const response = await fetch('http://localhost:8080/chamados/emAberto', {
+    const response = await fetch(`${BACKEND_BASE_URL}/chamados/emAberto`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -131,7 +131,7 @@ async function pegarQtdChamadosEmAbertosUsuario() {
 async function pegarQtdChamadosEmTratativaUsuario() {
   const token = localStorage.getItem('token');
   try {
-    const response = await fetch('http://localhost:8080/chamados/emTratativa', {
+    const response = await fetch(`${BACKEND_BASE_URL}/chamados/emTratativa`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -156,7 +156,7 @@ async function pegarQtdChamadosEmTratativaUsuario() {
 async function pegarQtdChamadosResolvidosUsuario() {
   const token = localStorage.getItem('token');
   try {
-    const response = await fetch('http://localhost:8080/chamados/resolvido', {
+    const response = await fetch(`${BACKEND_BASE_URL}/chamados/resolvido`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -188,7 +188,7 @@ async function updateTicketsList() {
   let filtrados = [];
 
   try {
-    const response = await fetch('http://localhost:8080/chamados/status/emAbertoEemTratativa', {
+    const response = await fetch(`${BACKEND_BASE_URL}/chamados/status/emAbertoEemTratativa`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

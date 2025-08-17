@@ -110,7 +110,7 @@ function renderNewTicket(container, addTicketCallback) {
 
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch('http://localhost:8080/chamados/registrar', {
+    const response = await fetch(`${BACKEND_BASE_URL}/chamados/registrar`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -135,7 +135,7 @@ function renderNewTicket(container, addTicketCallback) {
 
 async function prioridades() {
     try {
-        const response = await fetch('http://localhost:8080/prioridades');
+        const response = await fetch(`${BACKEND_BASE_URL}/prioridades`);
         if (response.ok) {
             const prioridades = await response.json();
             console.log('API Response:', prioridades); // Debug API response
@@ -156,7 +156,7 @@ async function prioridades() {
 
 async function loadDepartamentosRelacionamento() {
     try {
-        const response = await fetch('http://localhost:8080/departamento');
+        const response = await fetch(`${BACKEND_BASE_URL}/departamento`);
         if (response.ok) {
             const departamentos = await response.json();
             console.log('API Response:', departamentos); // Debug API response

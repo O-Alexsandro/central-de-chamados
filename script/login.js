@@ -66,7 +66,7 @@ function renderLogin(container) {
     const password = document.getElementById('password').value.trim();
 
     try {
-      const response = await fetch('http://localhost:8080/login', {
+      const response = await fetch(`${BACKEND_BASE_URL}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: username, senha: password })

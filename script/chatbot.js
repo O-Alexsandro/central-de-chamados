@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const usuario = payload ? payload.username || payload.sub || payload.email : "usuario_desconhecido";
 
         try {
-            const response = await fetch('http://localhost:8080/chat', {
+            const response = await fetch(`${BACKEND_BASE_URL}/chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
