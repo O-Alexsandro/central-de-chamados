@@ -22,11 +22,11 @@
 
 /* Logo no cabeçalho */
 .login-logo {
-  width: 80px;
-  height: 80px;
+  width: 150px;
+  height: 150px;
   margin: 0 auto 1rem;
   display: block;
-  background: url('../images/logo.png') no-repeat center center;
+  background: url('../images/logo_central_chamados_blue.png.jpg') no-repeat center center;
   background-size: contain;
 }
 
